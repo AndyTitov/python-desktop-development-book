@@ -4,10 +4,12 @@ import calendar
 import datetime
 from typing import Literal
 
-import customtkinter
+from .ctk_frame import CTkFrame
+from .ctk_button import CTkButton
+from .ctk_label import CTkLabel
 
 
-class CTkCalendar(customtkinter.CTkFrame):
+class CTkCalendar(CTkFrame):
     def __init__(
         self,
         master,
@@ -92,9 +94,9 @@ class CTkCalendar(customtkinter.CTkFrame):
         self.current_month = base_date.month
 
         self._anchors: list[datetime.date] = []
-        self.day_buttons: list[customtkinter.CTkButton] = []
+        self.day_buttons: list[CTkButton] = []
         self._button_dates: list[datetime.date | None] = [None] * 42
-        self._weekday_labels: list[customtkinter.CTkLabel] = []
+        self._weekday_labels: list[CTkLabel] = []
 
         self.grid_propagate(False)
         self.pack_propagate(False)
@@ -108,7 +110,7 @@ class CTkCalendar(customtkinter.CTkFrame):
         self.grid_rowconfigure(1, weight=0)
         self.grid_rowconfigure(2, weight=1)
 
-        self._header_frame = customtkinter.CTkFrame(master=self, fg_color="transparent")
+        self._header_frame = CTkFrame(master=self, fg_color="transparent")
         self._header_frame.grid(row=0, column=0, sticky="ew", padx=10, pady=(10, 4))
 
         self._header_frame.grid_columnconfigure(0, weight=0)
@@ -117,7 +119,7 @@ class CTkCalendar(customtkinter.CTkFrame):
         self._header_frame.grid_columnconfigure(3, weight=0)
         self._header_frame.grid_columnconfigure(4, weight=0)
 
-        self.double_left_arrow = customtkinter.CTkButton(
+        self.double_left_arrow = CTkButton(
             master=self._header_frame,
             width=28,
             height=28,
@@ -130,7 +132,7 @@ class CTkCalendar(customtkinter.CTkFrame):
         )
         self.double_left_arrow.grid(row=0, column=0, sticky="w", padx=(0, 4))
 
-        self.left_arrow = customtkinter.CTkButton(
+        self.left_arrow = CTkButton(
             master=self._header_frame,
             width=28,
             height=28,
@@ -143,7 +145,7 @@ class CTkCalendar(customtkinter.CTkFrame):
         )
         self.left_arrow.grid(row=0, column=1, sticky="w", padx=(0, 8))
 
-        self.month_and_year = customtkinter.CTkLabel(
+        self.month_and_year = CTkLabel(
             master=self._header_frame,
             text="",
             text_color=self._colors["header_text_color"],
@@ -151,7 +153,7 @@ class CTkCalendar(customtkinter.CTkFrame):
         )
         self.month_and_year.grid(row=0, column=2, sticky="ew", padx=4)
 
-        self.right_arrow = customtkinter.CTkButton(
+        self.right_arrow = CTkButton(
             master=self._header_frame,
             width=28,
             height=28,
@@ -164,7 +166,7 @@ class CTkCalendar(customtkinter.CTkFrame):
         )
         self.right_arrow.grid(row=0, column=3, sticky="e", padx=(8, 4))
 
-        self.double_right_arrow = customtkinter.CTkButton(
+        self.double_right_arrow = CTkButton(
             master=self._header_frame,
             width=28,
             height=28,
@@ -177,14 +179,14 @@ class CTkCalendar(customtkinter.CTkFrame):
         )
         self.double_right_arrow.grid(row=0, column=4, sticky="e")
 
-        self._weekdays_frame = customtkinter.CTkFrame(master=self, fg_color="transparent")
+        self._weekdays_frame = CTkFrame(master=self, fg_color="transparent")
         self._weekdays_frame.grid(row=1, column=0, sticky="ew", padx=10, pady=(0, 4))
 
         for column in range(7):
             self._weekdays_frame.grid_columnconfigure(column, weight=1, uniform="weekday")
 
         for column, weekday in enumerate(self.weekdays):
-            label = customtkinter.CTkLabel(
+            label = CTkLabel(
                 master=self._weekdays_frame,
                 text=weekday,
                 text_color=self._colors["weekday_text_color"],
@@ -193,7 +195,7 @@ class CTkCalendar(customtkinter.CTkFrame):
             label.grid(row=0, column=column, sticky="nsew", padx=2, pady=2)
             self._weekday_labels.append(label)
 
-        self._days_frame = customtkinter.CTkFrame(master=self, fg_color="transparent")
+        self._days_frame = CTkFrame(master=self, fg_color="transparent")
         self._days_frame.grid(row=2, column=0, sticky="nsew", padx=10, pady=(0, 10))
 
         for column in range(7):
@@ -209,7 +211,7 @@ class CTkCalendar(customtkinter.CTkFrame):
             row = index // 7
             column = index % 7
 
-            button = customtkinter.CTkButton(
+            button = CTkButton(
                 master=self._days_frame,
                 text="",
                 text_color=self._colors["day_text_color"],
